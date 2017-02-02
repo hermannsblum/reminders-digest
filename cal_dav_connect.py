@@ -17,7 +17,7 @@ def get_calendar_data(config):
     client = caldav.DAVClient(config['caldav']['url'],
                               username=config['caldav']['username'],
                               password=config['caldav']['password'],
-                              ssl_verify_cert=False)
+                              ssl_verify_cert=True)
     # insert when working: '/usr/share/ca-certificates/server.crt'
     principal = client.principal()
     calendars = principal.calendars()
