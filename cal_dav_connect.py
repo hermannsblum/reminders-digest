@@ -8,8 +8,8 @@ import datetime as dt
 import json
 import locale
 
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import smtplib
 
 
@@ -60,7 +60,8 @@ def get_calendar_data(config):
 
 
 def format_todo_item(item, format):
-    return "{}: {}".format(item['title'].encode('utf-8'), item['date'].strftime(format))
+    # return "{}: {}".format(item['title'].encode('utf-8'), item['date'].strftime(format))
+    return "{}: {}".format(item['title'], item['date'].strftime(format))
 
 
 def build_text(overdue, today, working_on):
