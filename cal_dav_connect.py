@@ -25,7 +25,12 @@ def get_calendar_data(config):
     today = []
     working_on = []
     for calendar in calendars:
-        for todo in calendar.todos():
+        try:
+            todos = calendar.todos()
+        except AttributeError as e:
+            # do noting
+            todos = []
+        for todo in todos:
             ics = icalendar.Calendar.from_ical(todo.data)
             for component in ics.walk():
                 due = component.get('due')
