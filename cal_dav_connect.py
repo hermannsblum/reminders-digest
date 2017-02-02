@@ -33,10 +33,18 @@ def get_calendar_data(config):
         for todo in todos:
             ics = icalendar.Calendar.from_ical(todo.data)
             for component in ics.walk():
+                if component.name != 'VTODO':
+                    # is not a todo
+                    continue
+
+                if component.get('completed') is not None:
+                    # task is completed
+                    continue
+
                 due = component.get('due')
                 metadata = component.get('X-2DOAPP-METADATA')
 
-                if component.name == 'VTODO' and due is not None:
+                if due is not None:
                     time = False
                     if type(due.dt) is dt.date:
                         due_date = due.dt
@@ -52,7 +60,7 @@ def get_calendar_data(config):
                         today.append({'title': component.get('summary'),
                                       'date': due.dt,
                                       'time': time})
-                if component.name == 'VTODO' and metadata is not None:
+                if metadata is not None:
                     metadata = metadata.replace('<2Do Meta>', '')
                     metadata = metadata.replace('</2Do Meta>', '')
                     decoded = json.loads(urllib.unquote(metadata).decode('utf8'))
