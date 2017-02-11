@@ -7,6 +7,7 @@ import urllib
 import datetime as dt
 import json
 import locale
+from os import path
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -142,7 +143,8 @@ def send_mail(config, text, html):
     server.close()
 
 if __name__ == '__main__':
-    config = json.loads(open('settings.json', 'r').read())
+    settings_file = fn = path.join(path.dirname(__file__), 'settings.json')
+    config = json.loads(open(settings_file, 'r').read())
     todos = get_calendar_data(config)
     plain_text = build_text(todos[0], todos[1], todos[2])
     html_text = build_html(todos[0], todos[1], todos[2])
